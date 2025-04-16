@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     height: 100%;
     font-family: 'Segoe UI', sans-serif;
-    background-color: #a8cbe9;
+    background-color: #f4f4f4;
     color: #333;
   }
   
@@ -33,7 +33,7 @@ html, body {
   
   #map {
     position: absolute;
-    top: 130px;
+    top: 100px;
     left: 0;
     right: 0;
     bottom: 0;
