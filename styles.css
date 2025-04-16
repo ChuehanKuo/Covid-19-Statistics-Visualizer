@@ -1,0 +1,59 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #0077b6;
+    color: white;
+    padding: 1.2rem 1rem;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  header h1 {
+    margin: 0 0 0.4rem;
+    font-size: 1.8rem;
+  }
+  
+  header p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+  
+  #map {
+    position: absolute;
+    top: 130px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+  
+  .tooltip-content {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+    header p {
+      font-size: 0.85rem;
+    }
+    #map {
+      top: 160px;
+    }
+  }
+  
