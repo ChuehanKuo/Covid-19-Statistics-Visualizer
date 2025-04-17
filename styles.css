@@ -44,6 +44,41 @@ html, body {
     font-size: 14px;
     line-height: 1.5;
   }
+
+  #global-stats {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-box {
+    text-align: center;
+    padding: 0 15px;
+  }
+  
+  .stat-box h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #0077b6;
+  }
+  
+  .stat-box p {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  /* Update map position */
+  #map {
+    top: 165px;
+  }
   
   @media (max-width: 600px) {
     header h1 {
