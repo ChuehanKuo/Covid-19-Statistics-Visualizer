@@ -93,25 +93,37 @@ html, body {
   }
 
   @media (max-width: 600px) {
-    #global-stats {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-  
-    .stat-box {
-      padding: 10px 0;
-      width: 100%;
-      border-bottom: 1px solid #ccc;
-    }
-  
-    .stat-box:last-child {
-      border-bottom: none;
-    }
-  
-    #map {
-      top: 330px; 
-    }
+  #global-stats {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 20px;
+    gap: 8px;
   }
-  
-  
+
+  .stat-box {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1rem;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .stat-box:last-child {
+    border-bottom: none;
+  }
+
+  #map {
+    top: 360px;
+  }
+
+  #global-stats h3 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  #global-stats p {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
