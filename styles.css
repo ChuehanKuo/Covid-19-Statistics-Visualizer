@@ -197,3 +197,46 @@ html, body {
 .country-item:last-child {
   border-bottom: none;
 }
+
+@media (max-width: 600px) {
+  /* Shrink top countries panel */
+  #top-countries {
+    max-width: 150px;
+    padding: 10px;
+    font-size: 0.8rem;
+    left: 5px;
+  }
+  
+  #top-countries h3 {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .country-item {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+  }
+  
+  /* Shrink legend panel */
+  #legend {
+    max-width: 120px;
+    padding: 10px;
+    font-size: 0.8rem;
+    left: 5px;
+  }
+  
+  #legend h3 {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+  
+  .color-box {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
+  
+  .legend-note {
+    font-size: 0.7rem;
+  }
+}
