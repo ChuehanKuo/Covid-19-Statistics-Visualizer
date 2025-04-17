@@ -1,4 +1,4 @@
-<img width="1470" alt="Screenshot 2025-04-18 at 2 58 29 AM" src="https://github.com/user-attachments/assets/a6224f65-bc37-4442-94d2-e07bec36c31b" /># 🌍 Global COVID-19 Statistics Map
+# 🌍 Global COVID-19 Statistics Map
 
 An interactive world map that visualizes real-time COVID-19 data by country. Hover over any country to view up-to-date statistics including confirmed cases, recoveries, and deaths. The map is enriched with national flags, a global summary bar, and a side panel showing the top 5 most affected countries.
 
@@ -35,7 +35,8 @@ This website also served as a way to practice dynamic JavaScript rendering, resp
 
 ## 📸 Preview
 
-<img width="1470" alt="Screenshot 2025-04-18 at 2 58 29 AM" src="https://github.com/user-attachments/assets/59267037-b2ff-4837-b40d-69ba367d3fe9" />
+![Screenshot 2025-04-18 at 2 58 29 AM (1)](https://github.com/user-attachments/assets/013ec24d-8798-48e1-8d99-4a0495d1446d)
+
 
 
 ---
