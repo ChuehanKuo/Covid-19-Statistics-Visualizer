@@ -91,4 +91,27 @@ html, body {
       top: 160px;
     }
   }
+
+  @media (max-width: 600px) {
+    #global-stats {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .stat-box {
+      padding: 10px 0;
+      width: 100%;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .stat-box:last-child {
+      border-bottom: none;
+    }
+  
+    #map {
+      top: 330px; 
+    }
+  }
+  
   
