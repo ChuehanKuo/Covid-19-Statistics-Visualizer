@@ -1,41 +1,62 @@
+<!-- 🔹 Settings 🔹 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8" /> <!--Character encoding, ensures all characters work-->
   <title>Global COVID-19 Statistics Map</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /> <!--Leaflet CSS-->
+  <link rel="stylesheet" href="styles.css" /> <!--Custom stylesheet-->
 </head>
 <body>
 
-  <!-- Header section -->
+
+
+
+<!-- 🔹 Header section 🔹 -->
   <header>
     <h1>🌍 Global COVID-19 Statistics Map</h1>
     <p>Hover over a country to see data on total cases, recoveries, and deaths.</p>
   </header>
 
-  <!-- Map container -->
+
+
+
+<!-- 🔹 Map container 🔹 -->
   <div id="map"></div>
 
-  <!-- Scripts -->
+
+
+
+<!-- 🔹 Scripts 🔹 -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
 
-  <!-- Global statistics section -->
+
+
+
+<!--  🔹 Global statistics section 🔹 -->
+
+  <!--Global Cases-->
 <div id="global-stats">
   <div class="stat-box">
     <h3>Total Cases</h3>
     <p id="global-cases"></p>
   </div>
+
+  <!--Global Total Recovered-->
   <div class="stat-box">
     <h3>Total Recovered</h3>
     <p id="global-recovered"></p>
   </div>
+
+  <!--Global Total Deaths-->
   <div class="stat-box">
     <h3>Total Deaths</h3>
     <p id="global-deaths"></p>
   </div>
+
+  <!--Last Update Time-->
   <div class="stat-box">
     <h3>Last Updated</h3>
     <p id="last-updated"></p>
@@ -43,7 +64,8 @@
 </div>
 
 
-<!-- Legend panel on the left bottom side -->
+
+<!-- 🔹 Map Guide panel on the left bottom side 🔹 (newly added)-->
 <div id="legend">
   <h3>Map Guide</h3>
   <div class="legend-item">
@@ -57,12 +79,14 @@
   <p class="legend-note">Hover over a country to see detailed COVID-19 statistics</p>
 </div>
 
-<!-- Top 5 countries panel on the left side -->
+
+
+
+<!-- 🔹 Top 5 countries panel on the left side (newly added)🔹 -->
 <div id="top-countries">
   <h3>Top 5 Countries by Cases</h3>
-  <div id="top-countries-list">
-    <!-- Will be populated by JavaScript -->
-  </div>
+  <div id="top-countries-list"></div>
 </div>
+
 </body>
 </html>
