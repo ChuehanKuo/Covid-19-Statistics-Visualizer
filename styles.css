@@ -38,7 +38,10 @@ html, body {
     right: 0;
     bottom: 0;
     z-index: 1;
+    
   }
+
+  
   
   .tooltip-content {
     font-size: 14px;
@@ -93,37 +96,104 @@ html, body {
   }
 
   @media (max-width: 600px) {
-  #global-stats {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 10px 20px;
-    gap: 8px;
+    #global-stats {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .stat-box {
+      padding: 10px 0;
+      width: 100%;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .stat-box:last-child {
+      border-bottom: none;
+    }
+  
+    #map {
+      top: 330px; 
+    }
   }
-
-  .stat-box {
-    width: 100%;
-    padding: 12px 0;
-    font-size: 1rem;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .stat-box:last-child {
-    border-bottom: none;
-  }
-
-  #map {
-    top: 360px;
-  }
-
-  #global-stats h3 {
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-  }
-
-  #global-stats p {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+  
+/* Legend panel styles */
+#legend {
+  position: fixed;
+  left: 10px;
+  top: 88%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 200px;
 }
 
+#legend h3 {
+  margin-top: 0;
+  color: #0077b6;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+.color-box.default {
+  background-color: #0077b6;
+  opacity: 0.3;
+}
+
+.color-box.hover {
+  background-color: #ff8800;
+  opacity: 0.5;
+}
+
+.legend-note {
+  font-size: 0.8rem;
+  margin-top: 10px;
+  color: #666;
+}
+
+/* Top countries panel styles */
+#top-countries {
+  position: fixed;
+  left: 10px;
+  top: 60%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 250px;
+}
+
+#top-countries h3 {
+  margin-top: 0;
+  color: #0077b6;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.country-item {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.country-item:last-child {
+  border-bottom: none;
+}
