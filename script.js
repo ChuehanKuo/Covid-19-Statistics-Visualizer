@@ -794,3 +794,30 @@ setInterval(async () => {
   updateGlobalStats();
   updateTopCountries(); 
 }, 300000); // Refresh every 5 minutes
+
+
+
+// About Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the modal elements
+  const modal = document.getElementById('about-modal');
+  const aboutBtn = document.getElementById('about-btn');
+  const closeBtn = document.querySelector('.close-btn');
+  
+  // Open modal when About button is clicked
+  aboutBtn.addEventListener('click', function() {
+    modal.style.display = 'block';
+  });
+  
+  // Close modal when X is clicked
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+  
+  // Close modal when clicking outside the modal content
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+});
