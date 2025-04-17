@@ -1,3 +1,4 @@
+/* 🔹 Main 🔹 */
 html, body {
     margin: 0;
     padding: 0;
@@ -31,6 +32,10 @@ html, body {
     opacity: 0.9;
   }
   
+
+
+
+  /* 🔹 Map 🔹 */
   #map {
     position: absolute;
     top: 100px;
@@ -41,13 +46,19 @@ html, body {
     
   }
 
+
+
   
-  
+  /* 🔹 Tooltip 🔹 */
   .tooltip-content {
     font-size: 14px;
     line-height: 1.5;
   }
 
+
+
+
+  /* 🔹 Global Stats 🔹 */
   #global-stats {
     position: fixed;
     top: 100px;
@@ -78,11 +89,13 @@ html, body {
     font-weight: bold;
   }
   
-  /* Update map position */
-  #map {
-    top: 165px;
-  }
-  
+
+
+
+/* 🔹Detect User's environment(using what electronic device), changing CSS accordingly 🔹 */
+  /*
+  This Part is work-in-process. Trying to figure out how to not break the margins when using mobile phones
+  */
   @media (max-width: 600px) {
     header h1 {
       font-size: 1.5rem;
@@ -95,7 +108,7 @@ html, body {
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 600px) { 
     #global-stats {
       flex-direction: column;
       align-items: center;
@@ -111,13 +124,16 @@ html, body {
     .stat-box:last-child {
       border-bottom: none;
     }
-  
+
     #map {
       top: 330px; 
     }
   }
   
-/* Legend panel styles */
+
+
+
+/* 🔹 Map Guide Panel Styles 🔹 */
 #legend {
   position: fixed;
   left: 10px;
@@ -167,7 +183,7 @@ html, body {
   color: #666;
 }
 
-/* Top countries panel styles */
+/* 🔹 Top Countries by Cases Panel Styles 🔹 */
 #top-countries {
   position: fixed;
   left: 10px;
@@ -196,47 +212,4 @@ html, body {
 
 .country-item:last-child {
   border-bottom: none;
-}
-
-@media (max-width: 600px) {
-  /* Shrink top countries panel */
-  #top-countries {
-    max-width: 150px;
-    padding: 10px;
-    font-size: 0.8rem;
-    left: 5px;
-  }
-  
-  #top-countries h3 {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-  }
-  
-  .country-item {
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-  }
-  
-  /* Shrink legend panel */
-  #legend {
-    max-width: 120px;
-    padding: 10px;
-    font-size: 0.8rem;
-    left: 5px;
-  }
-  
-  #legend h3 {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-  }
-  
-  .color-box {
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-  }
-  
-  .legend-note {
-    font-size: 0.7rem;
-  }
 }
