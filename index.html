@@ -17,6 +17,9 @@
   <header>
     <h1>🌍 Global COVID-19 Statistics Map</h1>
     <p>Hover over a country to see data on total cases, recoveries, and deaths.</p>
+    <div class="about-container">
+      <button id="about-btn">About</button>
+    </div>
   </header>
 
 
@@ -86,6 +89,27 @@
 <div id="top-countries">
   <h3>Top 5 Countries by Cases</h3>
   <div id="top-countries-list"></div>
+</div>
+
+<!-- 🔹 About Modal 🔹 -->
+<div id="about-modal">
+  <button class="close-btn" onclick="document.getElementById('about-modal').style.display='none'">&times;</button>
+  <h2>About This COVID-19 Map</h2>
+  <p>
+    This project started with a simple question: how can we make global crises feel more real, more human? I built an interactive world map that visualizes real-time COVID-19 data by country, combining API statistics with GeoJSON borders using JavaScript, HTML, and Leaflet.js. Users can hover over any country to explore its confirmed cases, recoveries, and deaths.
+  </p>
+  <p>
+    While building this, I faced challenges like inconsistent country names and mobile responsiveness—but they became opportunities to think critically, debug creatively, and improve the user experience. More importantly, the project taught me that programming isn’t just about solving technical problems — it’s about connecting information and people.
+  </p>
+  <p>
+    Through this map, I hope to remind users that each number represents a life, and every hover is a step toward empathy.
+  </p>
+  <div class="footer-note">
+    Data from <a href="https://disease.sh" target="_blank">disease.sh</a> • Auto-updates every 5 minutes.<br />
+    Last updated: April 2025
+  </div>
+</div>
+
 </div>
 
 </body>
