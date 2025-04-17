@@ -28,7 +28,28 @@ const map = L.map('map', { //creates leaflet map inside 'map' in html
   //convert to lowercase in later code
   const covidStats = {};
 
+  // 🔹 Function to update global statistics 🔹
+function updateGlobalStats() {
+  let totalCases = 0;
+  let totalRecovered = 0;
+  let totalDeaths = 0;
   
+  for (const country in covidStats) {
+    const stats = covidStats[country];
+    
+    if (typeof stats.cases === 'number') totalCases += stats.cases;
+    if (typeof stats.recovered === 'number') totalRecovered += stats.recovered;
+    if (typeof stats.deaths === 'number') totalDeaths += stats.deaths;
+  }
+  
+  const formatNumber = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  
+  document.getElementById('global-cases').textContent = formatNumber(totalCases);
+  document.getElementById('global-recovered').textContent = formatNumber(totalRecovered);
+  document.getElementById('global-deaths').textContent = formatNumber(totalDeaths);
+  document.getElementById('last-updated').textContent = new Date().toLocaleString();
+}
+
 
 // 🔹 Fetch COVID-19 statistics for all countries from disease.sh 🔹
 async function fetchCovidData() {
@@ -600,31 +621,13 @@ function preloadFlags() {
           stats = covidStats[countryName.toLowerCase()];
         }
       
+
         //🔹 Global statistics on the top bar 🔹
 
         updateGlobalStats();
 
-        function updateGlobalStats() {
-          let totalCases = 0;
-          let totalRecovered = 0;
-          let totalDeaths = 0;
-          
-          for (const country in covidStats) {
-            const stats = covidStats[country];
-            
-            if (typeof stats.cases === 'number') totalCases += stats.cases;
-            if (typeof stats.recovered === 'number') totalRecovered += stats.recovered;
-            if (typeof stats.deaths === 'number') totalDeaths += stats.deaths;
-          }
-          
-          const formatNumber = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          
-          document.getElementById('global-cases').textContent = formatNumber(totalCases);
-          document.getElementById('global-recovered').textContent = formatNumber(totalRecovered);
-          document.getElementById('global-deaths').textContent = formatNumber(totalDeaths);
-          document.getElementById('last-updated').textContent = new Date().toLocaleString();
-        }
-            
+        
+
         // 🔹 Show tooltip for every country — even if data is missing 🔹
         layer.bindTooltip(() => {
           if (stats) {
@@ -668,5 +671,9 @@ function preloadFlags() {
   }
   
   // 🔹 Load the map and data 🔹
-  loadWorldMap();
-  
+loadWorldMap();
+
+setInterval(async () => {
+  await fetchCovidData();
+  updateGlobalStats();
+}, 300000); // Refresh every 5 minutes
