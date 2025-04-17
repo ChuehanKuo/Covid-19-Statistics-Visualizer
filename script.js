@@ -5,7 +5,7 @@ const map = L.map('map', { //creates leaflet map inside 'map' in html
   }).setView([35, 0], 2);   //center the map
 
     // Add strict bounds to prevent scrolling outside the map
-map.setMinZoom(2);  // Prevent zooming out too far
+map.setMinZoom(2.49);  // Prevent zooming out too far
 map.setMaxBounds([  // Set strict world boundaries
   [-90, -180],      // Southwest corner
   [90, 180]         // Northeast corner
