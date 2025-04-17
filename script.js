@@ -1,26 +1,13 @@
 // 🔹 Initialize the Leaflet map and configure basic settings 🔹
 const map = L.map('map', { //creates leaflet map inside 'map' in html
-    minZoom: 2.49,             //limit the minimum and maximum zoom level
+    minZoom: 2.49, //limit the minimum and maximum zoom level
     maxZoom: 6              
-  }).setView([35, 0], 2);   //center the map
-
-    // Add strict bounds to prevent scrolling outside the map
-map.setMinZoom(2.49);  // Prevent zooming out too far
-map.setMaxBounds([  // Set strict world boundaries
-  [-90, -180],      // Southwest corner
-  [90, 180]         // Northeast corner
-]);
-
-// Force the map to stay within bounds
-map.on('drag', function() {
-  map.panInsideBounds(map.getBounds());
-});
-
-// Disable worldCopyJump to prevent seeing multiple copies of the map
-map.options.worldCopyJump = false;
+  }).setView([35, 0], 2); //center the map
 
 
-  // 🔹 Add the base map(country names, borders, etc) the non-interactive parts, from OpenStreetMap 🔹
+
+
+// 🔹 Add the base map(country names, borders, etc) the non-interactive parts, from OpenStreetMap 🔹
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; CartoDB, OpenStreetMap contributors', //credit the creators
     subdomains: 'abcd', //for faster loading, request rotate across abcd
@@ -28,29 +15,35 @@ map.options.worldCopyJump = false;
     noWrap: true //stop map wrapping, so map won't repeat at the edges      
   }).addTo(map);
 
+
   
 
- 
+// 🔹 Define the bounds of the map to prevent dragging too far outside the world 🔹
+map.setMaxBounds([
+  [-85, -180],            // Southwest corner (latitude, longitude)
+  [85, 180]               // Northeast corner (latitude, longitude)
+]);
+
  
   
-  // 🔹 Store fetched COVID-19 data for quick access by country name (converted to lowercase) 🔹
-  //convert to lowercase in later code
+// 🔹 Store fetched COVID-19 data for quick access by country name (converted to lowercase) 🔹 
   const covidStats = {};
 
-  // 🔹 Function to update global statistics 🔹
+
+
+
+// 🔹 Function to update global statistics 🔹
 function updateGlobalStats() {
   let totalCases = 0;
   let totalRecovered = 0;
   let totalDeaths = 0;
   
-  for (const country in covidStats) {
-    const stats = covidStats[country];
-    
+  for (const country in covidStats) {    
+    const stats = covidStats[country];    
     if (typeof stats.cases === 'number') totalCases += stats.cases;
     if (typeof stats.recovered === 'number') totalRecovered += stats.recovered;
     if (typeof stats.deaths === 'number') totalDeaths += stats.deaths;
   }
-  
   const formatNumber = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   
   document.getElementById('global-cases').textContent = formatNumber(totalCases);
@@ -58,6 +51,8 @@ function updateGlobalStats() {
   document.getElementById('global-deaths').textContent = formatNumber(totalDeaths);
   document.getElementById('last-updated').textContent = new Date().toLocaleString();
 }
+
+
 
 
 // 🔹 Fetch COVID-19 statistics for all countries from disease.sh 🔹
@@ -76,7 +71,10 @@ async function fetchCovidData() {
   });
 }
 
-// 🔹 Load the flags faster 🔹
+
+
+
+// 🔹 Load country flags faster 🔹
 function preloadFlags() {
   //loop through all countries we have data for
   for (const country in covidStats) {
@@ -89,8 +87,10 @@ function preloadFlags() {
   }
 }
 
-  //🔹 Load country boundaries (GeoJSON) and apply COVID data tooltips 🔹
-   
+
+
+
+//🔹 Load country boundaries (GeoJSON) and apply COVID data tooltips 🔹   
   async function loadWorldMap() {
     await fetchCovidData(); // Step 1: Get COVID data before drawing map
     updateTopCountries();
@@ -108,62 +108,85 @@ function preloadFlags() {
       const countryName = feature.properties.name;
       let stats;
 
-      //🔹 Individual checks for problematic countries 🔹
+
+
+
+//🔹 Individual checks for problematic countries 🔹
+    
+    /*
+    Due to some countries having different id names for the api and GeoJSON(map). This if-tree goes through all possible
+    id names, trying to link the api and map. If not found, fallback to most possible country, or else, 
+    use placeholder showing limited info.
+    */
+
+        //Check USA
         if (countryName.toLowerCase() === "united states of america" || countryName.toLowerCase() === "united states") {
           stats = covidStats["usa"];
-        } else if (countryName.toLowerCase() === "united kingdom") {
+        
+        //Check UK
+        }else if (countryName.toLowerCase() === "united kingdom") {
           stats = covidStats["uk"];
-        } else if (countryName.toLowerCase() === "bosnia and herzegovina") {
-          // Try multiple formats for Bosnia and Herzegovina
+
+        //Check Bosnia and Herzegovina
+        }else if (countryName.toLowerCase() === "bosnia and herzegovina") {          
           if (covidStats["bosnia"]) {
             stats = covidStats["bosnia"];
-          } else if (covidStats["bosnia-and-herzegovina"]) {
+          }else if (covidStats["bosnia-and-herzegovina"]) {
             stats = covidStats["bosnia-and-herzegovina"];
-          } else {
+          }else {
             stats = covidStats["bosnia-herzegovina"];
           }
-        } else if (countryName.toLowerCase() === "costa rica") {
+
+        //Check Costa Rica
+        }else if (countryName.toLowerCase() === "costa rica") {
           if (covidStats["costa-rica"]) {
             stats = covidStats["costa-rica"];
           } else if (covidStats["costa rica"]) {
             stats = covidStats["costa rica"];
           } else if (covidStats["costarica"]) {
             stats = covidStats["costarica"];
-          } else {
-            // Try to use the country code as last resort
-            stats = covidStats["cri"];
+          } else {          
+            stats = covidStats["cri"]; 
           }
-        } else if (countryName.toLowerCase() === "bahamas" || countryName.toLowerCase() === "the bahamas") {
+
+        //Check The Bahamas
+        }else if (countryName.toLowerCase() === "bahamas" || countryName.toLowerCase() === "the bahamas") {
           stats = covidStats["bahamas"];
-        } else if (countryName.toLowerCase() === "new zealand") {
-          // Try multiple formats for New Zealand
+
+        //Check New Zealand
+        }else if (countryName.toLowerCase() === "new zealand") {
           if (covidStats["new-zealand"]) {
             stats = covidStats["new-zealand"];
-          } else if (covidStats["new zealand"]) {
+          }else if (covidStats["new zealand"]) {
             stats = covidStats["new zealand"];
           }
-        } else if (countryName.toLowerCase() === "papua new guinea") {
-          // Try multiple formats for Papua New Guinea
+
+        //Check Papua New Guinea
+        }else if (countryName.toLowerCase() === "papua new guinea") {          
           if (covidStats["papua-new-guinea"]) {
             stats = covidStats["papua-new-guinea"];
           } else if (covidStats["papua new guinea"]) {
             stats = covidStats["papua new guinea"];
           }
+
+        //Check Solomon Islands
         } else if (countryName.toLowerCase() === "solomon islands") {
-          // Try multiple formats for Solomon Islands
           if (covidStats["solomon-islands"]) {
             stats = covidStats["solomon-islands"];
           } else if (covidStats["solomon islands"]) {
             stats = covidStats["solomon islands"];
           }
+        
+        //Check East Timor
         } else if (countryName.toLowerCase() === "east timor" || countryName.toLowerCase() === "timor-leste") {
           stats = covidStats["timor-leste"];
 
-
+        //Check Republic of Serbia
         } else if (countryName.toLowerCase() === "republic of serbia") {
           stats = covidStats["serbia"];
+
+        //Check Macedonia
         } else if (countryName.toLowerCase() === "macedonia") {
-          // Try multiple formats for Macedonia
           if (covidStats["north-macedonia"]) {
             stats = covidStats["north-macedonia"];
           } else if (covidStats["macedonia"]) {
@@ -171,12 +194,17 @@ function preloadFlags() {
           } else if (covidStats["republic of north macedonia"]) {
             stats = covidStats["republic of north macedonia"];
           }
+        
+        //Check Czech Republic
         } else if (countryName.toLowerCase() === "czech republic") {
           stats = covidStats["czechia"];
+
+        //Check United Arab Emirates
         } else if (countryName.toLowerCase() === "united arab emirates") {
           stats = covidStats["uae"];
+
+        //Check Democratic Republic of Congo
         } else if (countryName.toLowerCase() === "democratic republic of congo" || countryName.toLowerCase() === "democratic republic of the congo") {
-          // Try multiple formats for Democratic Republic of Congo
           if (covidStats["dr-congo"]) {
             stats = covidStats["dr-congo"];
           } else if (covidStats["drc"]) {
@@ -186,6 +214,8 @@ function preloadFlags() {
           } else {
             stats = covidStats["congo-kinshasa"];
           }
+
+        //Check West Sahara
         } else if (countryName.toLowerCase() === "west sahara" || countryName.toLowerCase() === "western sahara") {
           if (covidStats["western-sahara"]) {
             stats = covidStats["western-sahara"];
@@ -198,9 +228,10 @@ function preloadFlags() {
           } else if (covidStats["sahrawi"]) {
             stats = covidStats["sahrawi"];
           } else {
-            // Try country code as last resort
             stats = covidStats["esh"];
           }
+
+        //Check Sierra Leone
         } else if (countryName.toLowerCase() === "sierra leone") {
           if (covidStats["sierra-leone"]) {
             stats = covidStats["sierra-leone"];
@@ -209,9 +240,10 @@ function preloadFlags() {
           } else if (covidStats["sierraleone"]) {
             stats = covidStats["sierraleone"];
           } else {
-            // Try country code as last resort
             stats = covidStats["sle"];
           }
+
+        //Check Burkina Faso
         } else if (countryName.toLowerCase() === "burkina faso") {
           if (covidStats["burkina-faso"]) {
             stats = covidStats["burkina-faso"];
@@ -222,9 +254,10 @@ function preloadFlags() {
           } else if (covidStats["burkina"]) {
             stats = covidStats["burkina"];
           } else {
-            // Try country code as last resort
             stats = covidStats["bfa"];
           }
+
+        //Check Ivory Coast
         } else if (countryName.toLowerCase() === "ivory coast" || countryName.toLowerCase() === "côte d'ivoire") {
           if (covidStats["ivory-coast"]) {
             stats = covidStats["ivory-coast"];
@@ -241,11 +274,11 @@ function preloadFlags() {
           } else if (covidStats["ivorycoast"]) {
             stats = covidStats["ivorycoast"];
           } else {
-            // Try country code as last resort
             stats = covidStats["civ"];
           }
+
+        //Check Central African Republic
         } else if (countryName.toLowerCase() === "central african republic") {
-          // Try multiple formats for Central African Republic
           if (covidStats["car"]) {
             stats = covidStats["car"];
           } else if (covidStats["central-african-rep"]) {
@@ -255,9 +288,10 @@ function preloadFlags() {
           } else if (covidStats["central african republic"]) {
             stats = covidStats["central african republic"];
           } else {
-            // Try country code as last resort
             stats = covidStats["caf"];
           }
+
+        //Check Equatorial Guinea
         } else if (countryName.toLowerCase() === "equatorial guinea") {
           if (covidStats["equatorial-guinea"]) {
             stats = covidStats["equatorial-guinea"];
@@ -268,17 +302,18 @@ function preloadFlags() {
           } else if (covidStats["eq-guinea"]) {
             stats = covidStats["eq-guinea"];
           } else {
-            // Try country code as last resort
             stats = covidStats["gnq"];
           }
 
+        //Check Guinea Bissau
         } else if (countryName.toLowerCase() === "guinea bissau") {
-          // Try multiple formats for Guinea-Bissau
           if (covidStats["guinea-bissau"]) {
             stats = covidStats["guinea-bissau"];
           } else {
             stats = covidStats["guinea bissau"];
           }
+
+        //Check South Sudan
         } else if (countryName.toLowerCase() === "south sudan") {
           if (covidStats["south-sudan"]) {
             stats = covidStats["south-sudan"];
@@ -289,9 +324,10 @@ function preloadFlags() {
           } else if (covidStats["southsudan"]) {
             stats = covidStats["southsudan"];
           } else {
-            // Try country code as last resort
             stats = covidStats["ssd"];
           }
+
+        //Check Somaliland --> data merged with somalia
         } else if (countryName.toLowerCase() === "somaliland") {
           stats = covidStats["somalia"];
         } else if (countryName.toLowerCase() === "swaziland") {
@@ -304,9 +340,10 @@ function preloadFlags() {
           } else if (covidStats["kingdom-of-eswatini"]) {
             stats = covidStats["kingdom-of-eswatini"];
           } else {
-            // Try country code as last resort
             stats = covidStats["swz"];
           }
+
+        //Check South Africa
         } else if (countryName.toLowerCase() === "south africa") {
           if (covidStats["south-africa"]) {
             stats = covidStats["south-africa"];
@@ -317,11 +354,14 @@ function preloadFlags() {
           } else if (covidStats["southafrica"]) {
             stats = covidStats["southafrica"];
           } else {
-            // Try country code as last resort
             stats = covidStats["zaf"];
           }
+
+        //Check Republic of Tanzania
         } else if (countryName.toLowerCase() === "united republic of tanzania" || countryName.toLowerCase() === "tanzania") {
           stats = covidStats["tanzania"];
+
+        //Check French Southern and Antarctic Lands --> found no data
         } else if (countryName.toLowerCase() === "french southern and antarctic lands") {
           if (covidStats["french southern territories"]) {
             stats = covidStats["french southern territories"];
@@ -330,6 +370,8 @@ function preloadFlags() {
           } else {
             stats = covidStats["french southern territories"];
           }
+        
+        //Check Falkland Islands
         } else if (countryName.toLowerCase() === "falkland islands") {
           if (covidStats["falkland-islands"]) {
             stats = covidStats["falkland-islands"];
@@ -338,39 +380,44 @@ function preloadFlags() {
           } else if (covidStats["falkland islands (malvinas)"]) {
             stats = covidStats["falkland islands (malvinas)"];
           }
+        
+        //Check French Guiana
         } else if (countryName.toLowerCase() === "french guiana") {
-          // Try multiple formats for French Guiana
           if (covidStats["french-guiana"]) {
             stats = covidStats["french-guiana"];
           } else if (covidStats["french guiana"]) {
             stats = covidStats["french guiana"];
           }
+        
+        //Check El Salvador
         } else if (countryName.toLowerCase() === "el salvador") {
-          // Try multiple formats for El Salvador
           if (covidStats["el-salvador"]) {
             stats = covidStats["el-salvador"];
           } else if (covidStats["el salvador"]) {
             stats = covidStats["el salvador"];
           }
+        
+        //Check Dominican Republic
         } else if (countryName.toLowerCase() === "dominican republic") {
-          // Try multiple formats for Dominican Republic
           if (covidStats["dominican-republic"]) {
             stats = covidStats["dominican-republic"];
           } else if (covidStats["dominican republic"]) {
             stats = covidStats["dominican republic"];
           }
+
+        //Check Puerto Rico --> territory of the US, merged with US data
         } else if (countryName.toLowerCase() === "puerto rico") {
-          // Try multiple variations for Puerto Rico
           if (covidStats["puerto-rico"]) {
             stats = covidStats["puerto-rico"];
           } else if (covidStats["puerto rico"]) {
             stats = covidStats["puerto rico"];
           } else {
-            // Fallback to using USA stats as Puerto Rico may be grouped with the US
-            stats = covidStats["usa"];
+            // If Puerto Rico isn't found, fallback to USA
+            stats = covidStats["usa"]; //--> true
           }
+
+        //Check Saudi Arabia
         } else if (countryName.toLowerCase() === "saudi arabia") {
-          // Try multiple formats for Saudi Arabia
           if (covidStats["saudi-arabia"]) {
             stats = covidStats["saudi-arabia"];
           } else if (covidStats["saudi arabia"]) {
@@ -378,16 +425,19 @@ function preloadFlags() {
           } else if (covidStats["ksa"]) {
             stats = covidStats["ksa"];
           }
+
+        //Check Kosovo
         } else if (countryName.toLowerCase() === "kosovo") {
-          // Try multiple formats for Kosovo
           if (covidStats["republic-of-kosovo"]) {
             stats = covidStats["republic-of-kosovo"];
           } else if (covidStats["kosovo"]) {
             stats = covidStats["kosovo"];
           } else {
             // If Kosovo isn't found, use Serbia stats as fallback
-            stats = covidStats["serbia"];
+            stats = covidStats["serbia"]; //--> false
           }
+
+        //Check Northern Cyprus
         } else if (countryName.toLowerCase() === "northern cyprus") {
           // Northern Cyprus may be listed under either Cyprus or Turkey
           if (covidStats["northern-cyprus"]) {
@@ -396,10 +446,11 @@ function preloadFlags() {
             stats = covidStats["north-cyprus"];
           } else {
             // Fallback to Cyprus
-            stats = covidStats["cyprus"];
+            stats = covidStats["cyprus"]; //--> true
           }
+
+        //Check West Bank
         } else if (countryName.toLowerCase() === "west bank" || countryName.toLowerCase() === "gaza" || countryName.toLowerCase() === "palestine") {
-          // Try various names for Palestinian territories
           if (covidStats["palestine"]) {
             stats = covidStats["palestine"];
           } else if (covidStats["palestinian-territory"]) {
@@ -409,12 +460,16 @@ function preloadFlags() {
           } else {
             stats = covidStats["palestine-state"];
           }
+
+        //Check Libya
         } else if (countryName.toLowerCase() === "libya") {
           if (covidStats["libya"]) {
             stats = covidStats["libya"];
           } else if (covidStats["libyan arab jamahiriya"]) {
             stats = covidStats["libyan arab jamahiriya"];
           }
+
+        //Check Syria
         } else if (countryName.toLowerCase() === "syria") {
           if (covidStats["syria"]) {
             stats = covidStats["syria"];
@@ -423,19 +478,22 @@ function preloadFlags() {
           } else {
             stats = covidStats["syrian-arab-republic"];
           }
+
+        //Check Turkmenistan
         } else if (countryName.toLowerCase() === "turkmenistan") {
-          // Try multiple formats or fallback to a neighboring country if no data
           if (covidStats["turkmenistan"]) {
             stats = covidStats["turkmenistan"];
           } else {
             // If no data is available (Turkmenistan has reported very few cases), 
-            // use placeholder
-            stats = {
+            // use placeholder limited data
+            stats = { //--> true
               cases: "Limited data",
               recovered: "Limited data",
               deaths: "Limited data"
-            };
+            }
           }
+
+        //Check Laos
         } else if (countryName.toLowerCase() === "laos") {
           if (covidStats["laos"]) {
             stats = covidStats["laos"];
@@ -444,33 +502,37 @@ function preloadFlags() {
           } else if (covidStats["lao people's democratic republic"]) {
             stats = covidStats["lao people's democratic republic"];
           }
+
+        //Check New Caledonia
         } else if (countryName.toLowerCase() === "new caledonia") {
-          // Try multiple formats for New Caledonia
           if (covidStats["new-caledonia"]) {
             stats = covidStats["new-caledonia"];
           } else if (covidStats["new caledonia"]) {
             stats = covidStats["new caledonia"];
           }
+
+        //Check Sri Lanka
         } else if (countryName.toLowerCase() === "sri lanka") {
-          // Try multiple formats for Sri Lanka
           if (covidStats["sri-lanka"]) {
             stats = covidStats["sri-lanka"];
           } else if (covidStats["sri lanka"]) {
-            stats = covidStats["sri lanka"];
+            stats = covidStats["sri lanka"];          
           }
-        } else if (countryName.toLowerCase() === "antarctica") {
+
+        //Check Antarctica
+        }else if (countryName.toLowerCase() === "antarctica") {
           if (covidStats["antarctica"]) {
             stats = covidStats["antarctica"];
-          } else {
-            // Antarctica may not have covid19 data
-            stats = {
+          }else {
+            stats = { //--> true
               cases: "Limited data",
               recovered: "Limited data",
               deaths: "Limited data"
             };
           }
-        }// Republic of Congo - All possible name variations //still not working!!
-        else if (countryName.toLowerCase() === "republic of congo" || 
+
+        //Check Republic of Congo --> Still can't find the right id. Show no covid19 data.
+        }else if (countryName.toLowerCase() === "republic of congo" || 
         countryName.toLowerCase() === "congo republic" || 
         countryName.toLowerCase() === "congo-brazzaville" ||
         countryName.toLowerCase() === "congo brazzaville") {
@@ -511,13 +573,10 @@ function preloadFlags() {
         } else if (covidStats["congo(brazzaville)"]) {
         stats = covidStats["congo(brazzaville)"];
         } else {
-        // Try country code as last resort
-        stats = covidStats["cog"];
-        }
-        }
+        stats = covidStats["cog"];}
 
-        // South Korea - All possible name variations
-        else if (countryName.toLowerCase() === "south korea" || 
+        //Check South Korea
+        }else if (countryName.toLowerCase() === "south korea" || 
         countryName.toLowerCase() === "republic of korea" ||
         countryName.toLowerCase() === "korea, republic of") {
         if (covidStats["s-korea"]) {
@@ -567,13 +626,11 @@ function preloadFlags() {
         } else if (covidStats["s.korea"]) {
         stats = covidStats["s.korea"];
         } else {
-        // Try country code as last resort
         stats = covidStats["kor"];
         }
-        }
-
-        // North Korea - All possible name variations
-        else if (countryName.toLowerCase() === "north korea" || 
+        
+        //Check North Korea
+        }else if (countryName.toLowerCase() === "north korea" || 
         countryName.toLowerCase() === "democratic people's republic of korea" || 
         countryName.toLowerCase() === "democratic peoples republic of korea") {
         if (covidStats["n-korea"]) {
@@ -621,26 +678,33 @@ function preloadFlags() {
         } else if (covidStats["korea, democratic people's republic of"]) {
         stats = covidStats["korea, democratic people's republic of"];
         } else {
-        // Try country code as last resort
-        stats = covidStats["prk"];
-        }
-
-
-        }else {
-          // Default fallback to original method
+        stats = covidStats["prk"];}
+          /*
+          !!This line is important. Default fallback if none of the if and if-else statements work.
+          If none work, change geoJSON id to lowercase to match API id.
+          */
+        }else {  
           stats = covidStats[countryName.toLowerCase()];
         }
+
+          /*
+        Country check summary: Republic of Congo, South Korea, North Korea took a lot more effort,
+        but still couldn't find Republic of Congo's corresponding id.
+        */
+
       
 
-        //🔹 Global statistics on the top bar 🔹
 
+//🔹 Global statistics on the top bar 🔹
         updateGlobalStats();
 
         
 
-        // 🔹 Show tooltip for every country — even if data is missing 🔹
-        layer.bindTooltip(() => {
-          if (stats) {
+
+// 🔹 Show tooltip for every country — even if data is missing 🔹  !!!Important (show data part)
+        //tooltip is the box that shows up when hovered over
+        layer.bindTooltip(() => { //attach tooltip to country layer(GeoJSON)
+          if (stats) { //if there is stats, stats=true, then continue
             return `
               <div class="tooltip-content">
                 <strong>${countryName}</strong><br />
@@ -650,7 +714,7 @@ function preloadFlags() {
                 Deaths: ${stats.deaths}
               </div>
             `;
-          } else {
+          } else { //if data is missing show this
             return `
               <div class="tooltip-content">
                 <strong>${countryName}</strong><br />
@@ -658,16 +722,22 @@ function preloadFlags() {
               </div>
             `;
           }
-        }, { sticky: true });
+        }, { sticky: true }); //!!Important. Makes tooltip follow cursor.
   
-        // 🔹 Add consistent hover style for all countries 🔹
+
+
+
+// 🔹 Hover Style, When hovered over--> show orange, when default --> light blue 🔹
         layer.on({
-          mouseover: () => layer.setStyle({ fillColor: '#ff8800', fillOpacity: 0.5 }),
-          mouseout: () => layer.setStyle({ fillColor: '#0077b6', fillOpacity: 0.3 })
+          mouseover: () => layer.setStyle({ fillColor: '#ff8800', fillOpacity: 0.5 }), //orange
+          mouseout: () => layer.setStyle({ fillColor: '#0077b6', fillOpacity: 0.3 }) //light blue
         });
       },
   
-      // 🔹 Default country polygon style 🔹
+
+
+
+// 🔹 Default country polygon style 🔹
       style: {
         color: '#666',          // Border color
         weight: 0.5,            // Border width
@@ -675,16 +745,19 @@ function preloadFlags() {
         fillOpacity: 0.3        // Default transparency
       }
     }).addTo(map);
-  
-    // Step 4: Auto-fit map to show all country boundaries 
-    //map.fitBounds(geoJsonLayer.getBounds());
+
+    //map.fitBounds(geoJsonLayer.getBounds()); //removed
   }
 
-  // Update top countries list
+
+
+
+  // 🔹 Update top countries list(left sidebar) 🔹
+
 function updateTopCountries() {
   // Create an array from the covidStats object
   const countriesArray = Object.entries(covidStats).map(([name, data]) => ({
-    name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize country name
+    name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize country's first letter
     cases: typeof data.cases === 'number' ? data.cases : 0
   }));
   
@@ -711,8 +784,13 @@ function updateTopCountries() {
   // 🔹 Load the map and data 🔹
 loadWorldMap();
 
+
+
+
+// 🔹 Automatically updates the Covid-19 data, so user see up-to-date info 🔹
+//!!!Important
 setInterval(async () => {
   await fetchCovidData();
   updateGlobalStats();
-  updateTopCountries(); // Add this line
+  updateTopCountries(); 
 }, 300000); // Refresh every 5 minutes
