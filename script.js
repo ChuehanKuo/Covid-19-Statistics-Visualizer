@@ -4,7 +4,21 @@ const map = L.map('map', { //creates leaflet map inside 'map' in html
     maxZoom: 6              
   }).setView([35, 0], 2);   //center the map
 
-  
+    // Add strict bounds to prevent scrolling outside the map
+map.setMinZoom(2);  // Prevent zooming out too far
+map.setMaxBounds([  // Set strict world boundaries
+  [-90, -180],      // Southwest corner
+  [90, 180]         // Northeast corner
+]);
+
+// Force the map to stay within bounds
+map.on('drag', function() {
+  map.panInsideBounds(map.getBounds());
+});
+
+// Disable worldCopyJump to prevent seeing multiple copies of the map
+map.options.worldCopyJump = false;
+
 
   // 🔹 Add the base map(country names, borders, etc) the non-interactive parts, from OpenStreetMap 🔹
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -16,12 +30,7 @@ const map = L.map('map', { //creates leaflet map inside 'map' in html
 
   
 
-  // 🔹 Define the bounds of the map to prevent dragging too far outside the world 🔹
-  map.setMaxBounds([
-    [-85, -180],            // Southwest corner (latitude, longitude)
-    [85, 180]               // Northeast corner (latitude, longitude)
-  ]);
-
+ 
  
   
   // 🔹 Store fetched COVID-19 data for quick access by country name (converted to lowercase) 🔹
