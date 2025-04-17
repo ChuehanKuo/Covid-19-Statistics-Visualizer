@@ -239,3 +239,143 @@ html, body {
 .country-item:last-child {
   border-bottom: none;
 }
+
+
+
+
+/* 🔹 Fix Leaflet zoom control placement 🔹 */
+.leaflet-top.leaflet-left {
+  top: 100px;
+  left: 10px;
+  z-index: 1001;
+}
+
+
+
+
+/* 🔹 About Button Styles 🔹 */
+.about-container {
+  position: absolute;
+  left: 20px;
+  top: 310px;
+  z-index: 1001;
+}
+
+#about-btn {
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#about-btn:hover {
+  background-color: #005f91;
+  transform: scale(1.05);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #0077b6;
+}
+
+
+
+
+/* 🔹 Responsive adjustments for mobile 🔹 */
+@media (max-width: 600px) {
+  .about-container {
+    right: 10px;
+    top: 15px;
+  }
+  
+  #about-btn {
+    font-size: 0.8rem;
+    padding: 4px 12px;
+  }
+}
+
+
+
+
+/* 🔹 About Modal Styling 🔹 */
+#about-modal {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  padding: 30px 28px;
+  max-width: 480px;
+  width: 90%;
+  z-index: 2000;
+  display: none;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#about-modal h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #0077b6;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+#about-modal p {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+#about-modal a {
+  color: #0077b6;
+  text-decoration: none;
+}
+
+#about-modal a:hover {
+  text-decoration: underline;
+}
+
+#about-modal .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#about-modal .close-btn:hover {
+  color: #000;
+}
+
+#about-modal .footer-note {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 15px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+
+
