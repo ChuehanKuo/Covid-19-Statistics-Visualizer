@@ -35,7 +35,7 @@ This website also served as a way to practice dynamic JavaScript rendering, resp
 
 ## 📸 Preview
 
-https://photos.fife.usercontent.google.com/pw/AP1GczN-C_xPMnNfRIZ4IYrYnWg0jufz7qVWx9F6-LU2TtcleFWqVd0oYdIl=w2940-h1594-s-no-gm?authuser=0
+![https://photos.fife.usercontent.google.com/pw/AP1GczN-C_xPMnNfRIZ4IYrYnWg0jufz7qVWx9F6-LU2TtcleFWqVd0oYdIl=w2940-h1594-s-no-gm?authuser=0]
 ---
 
 ## 📬 Contact
