@@ -2,7 +2,7 @@
 const map = L.map('map', { //creates leaflet map inside 'map' in html
     minZoom: 2,             //limit the minimum and maximum zoom level
     maxZoom: 6              
-  }).setView([20, 0], 2);   //center the map
+  }).setView([35, 0], 2);   //center the map
 
   
 
@@ -667,7 +667,7 @@ function preloadFlags() {
     }).addTo(map);
   
     // Step 4: Auto-fit map to show all country boundaries 
-    map.fitBounds(geoJsonLayer.getBounds());
+    //map.fitBounds(geoJsonLayer.getBounds());
   }
   
   // 🔹 Load the map and data 🔹
