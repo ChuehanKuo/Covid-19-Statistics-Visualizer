@@ -16,11 +16,13 @@ html, body {
     background: #0077b6;
     color: white;
     padding: 1.2rem 1rem;
-    text-align: center;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  
+
   header h1 {
     margin: 0 0 0.4rem;
     font-size: 1.8rem;
@@ -32,6 +34,42 @@ html, body {
     opacity: 0.9;
   }
   
+  
+  .header-content {
+    flex: 1;
+    text-align: center;
+  }
+  
+  /* Add the mobile-specific styles */
+  @media (max-width: 600px) {
+    header {
+      flex-direction: row;
+      padding: 10px;
+      align-items: center;
+    }
+    
+    .header-content {
+      text-align: left;
+    }
+    
+    header h1 {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    header p {
+      font-size: 0.75rem;
+    }
+    
+    /* adjust the map positioning */
+    #map {
+      top: 200px;
+    }
+    
+    #global-stats {
+      top: 80px;
+    }
+  }
 
 
 
