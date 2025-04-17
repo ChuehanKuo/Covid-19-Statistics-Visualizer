@@ -92,44 +92,70 @@ html, body {
 
 
 
-/* 🔹Detect User's environment(using what electronic device), changing CSS accordingly 🔹 */
+/* Detect User's environment(using what electronic device), changing CSS accordingly */
   /*
   This Part is work-in-process. Trying to figure out how to not break the margins when using mobile phones
   */
-  @media (max-width: 600px) {
-    header h1 {
-      font-size: 1.5rem;
-    }
-    header p {
-      font-size: 0.85rem;
-    }
-    #map {
-      top: 160px;
-    }
+/* 🔹 Mobile Layout Fixes 🔹 */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.4rem;
   }
 
-  @media (max-width: 600px) { 
-    #global-stats {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-  
-    .stat-box {
-      padding: 10px 0;
-      width: 100%;
-      border-bottom: 1px solid #ccc;
-    }
-  
-    .stat-box:last-child {
-      border-bottom: none;
-    }
-
-    #map {
-      top: 330px; 
-    }
+  header p {
+    font-size: 0.8rem;
   }
-  
+
+  #global-stats {
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px 10px;
+    gap: 6px;
+  }
+
+  .stat-box {
+    flex: 1 1 45%;
+    text-align: center;
+    font-size: 0.8rem;
+    padding: 6px 0;
+  }
+
+  .stat-box h3 {
+    font-size: 0.8rem;
+  }
+
+  .stat-box p {
+    font-size: 1rem;
+  }
+
+  #map {
+    top: 260px; /* Adjust based on new header + global-stats height */
+  }
+
+  #top-countries,
+  #legend {
+    max-width: 150px;
+    padding: 10px;
+    font-size: 0.75rem;
+  }
+
+  #top-countries h3,
+  #legend h3 {
+    font-size: 0.85rem;
+  }
+
+  .country-item {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+  }
+
+  .legend-note {
+    font-size: 0.7rem;
+  }
+}
+
 
 
 
