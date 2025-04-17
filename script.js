@@ -1,6 +1,6 @@
 // 🔹 Initialize the Leaflet map and configure basic settings 🔹
 const map = L.map('map', { //creates leaflet map inside 'map' in html
-    minZoom: 2,             //limit the minimum and maximum zoom level
+    minZoom: 2.49,             //limit the minimum and maximum zoom level
     maxZoom: 6              
   }).setView([35, 0], 2);   //center the map
 
@@ -18,8 +18,8 @@ const map = L.map('map', { //creates leaflet map inside 'map' in html
 
   // 🔹 Define the bounds of the map to prevent dragging too far outside the world 🔹
   map.setMaxBounds([
-    [-85, -200],            // Southwest corner (latitude, longitude)
-    [85, 200]               // Northeast corner (latitude, longitude)
+    [-85, -180],            // Southwest corner (latitude, longitude)
+    [85, 180]               // Northeast corner (latitude, longitude)
   ]);
 
  
@@ -84,6 +84,7 @@ function preloadFlags() {
    
   async function loadWorldMap() {
     await fetchCovidData(); // Step 1: Get COVID data before drawing map
+    updateTopCountries();
 
     preloadFlags(); //call the preload flag function
   
@@ -669,11 +670,40 @@ function preloadFlags() {
     // Step 4: Auto-fit map to show all country boundaries 
     //map.fitBounds(geoJsonLayer.getBounds());
   }
+
+  // Update top countries list
+function updateTopCountries() {
+  // Create an array from the covidStats object
+  const countriesArray = Object.entries(covidStats).map(([name, data]) => ({
+    name: name.charAt(0).toUpperCase() + name.slice(1), // Capitalize country name
+    cases: typeof data.cases === 'number' ? data.cases : 0
+  }));
   
+  // Sort by cases (highest first)
+  countriesArray.sort((a, b) => b.cases - a.cases);
+  
+  // Get top 5
+  const topFive = countriesArray.slice(0, 5);
+  
+  // Update the HTML
+  const listElement = document.getElementById('top-countries-list');
+  listElement.innerHTML = '';
+  
+  topFive.forEach(country => {
+    const item = document.createElement('div');
+    item.className = 'country-item';
+    item.innerHTML = `<strong>${country.name}</strong>: ${country.cases.toLocaleString()}`;
+    listElement.appendChild(item);
+  });
+}
+
+
+
   // 🔹 Load the map and data 🔹
 loadWorldMap();
 
 setInterval(async () => {
   await fetchCovidData();
   updateGlobalStats();
+  updateTopCountries(); // Add this line
 }, 300000); // Refresh every 5 minutes
