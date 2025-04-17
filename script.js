@@ -561,9 +561,8 @@ function preloadFlags() {
         // Try country code as last resort
         stats = covidStats["kor"];
         }
-        }
-
-        // North Korea - All possible name variations
+        }       
+         // North Korea - All possible name variations
         else if (countryName.toLowerCase() === "north korea" || 
         countryName.toLowerCase() === "democratic people's republic of korea" || 
         countryName.toLowerCase() === "democratic peoples republic of korea") {
@@ -613,10 +612,7 @@ function preloadFlags() {
         stats = covidStats["korea, democratic people's republic of"];
         } else {
         // Try country code as last resort
-        stats = covidStats["prk"];
-        }
-
-
+        stats = covidStats["prk"];}
         }else {
           // Default fallback to original method
           stats = covidStats[countryName.toLowerCase()];
@@ -669,6 +665,7 @@ function preloadFlags() {
   
     // Step 4: Auto-fit map to show all country boundaries 
     //map.fitBounds(geoJsonLayer.getBounds());
+    setupAboutButton();
   }
 
   // Update top countries list
@@ -702,8 +699,41 @@ function updateTopCountries() {
   // 🔹 Load the map and data 🔹
 loadWorldMap();
 
+
+
 setInterval(async () => {
   await fetchCovidData();
   updateGlobalStats();
   updateTopCountries(); // Add this line
 }, 300000); // Refresh every 5 minutes
+
+// Function to set up the About button and modal
+function setupAboutButton() {
+  const modal = document.getElementById('creator-modal');
+  const btn = document.getElementById('about-button');
+  const closeBtn = document.getElementsByClassName('close-button')[0];
+  
+  // Open modal when button is clicked
+  btn.onclick = function() {
+    modal.style.display = 'block';
+  }
+  
+  // Close modal when X is clicked
+  closeBtn.onclick = function() {
+    modal.style.display = 'none';
+  }
+  
+  // Close modal when clicking outside of it
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  }
+  
+  // Close modal when pressing Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+      modal.style.display = 'none';
+    }
+  });
+}
