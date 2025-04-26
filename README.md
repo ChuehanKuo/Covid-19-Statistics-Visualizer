@@ -1,5 +1,7 @@
 # 🌍 Global COVID-19 Statistics Map
 
+Full Report Link: https://hackmd.io/@EhY6joeNTVu4Z9GCmlZRxQ/Sku9R7ACkx
+
 An interactive world map that visualizes real-time COVID-19 data by country. Hover over any country to view up-to-date statistics including confirmed cases, recoveries, and deaths. The map is enriched with national flags, a global summary bar, and a side panel showing the top 5 most affected countries by cases.
 
 ---
